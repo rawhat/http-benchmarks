@@ -1,7 +1,7 @@
-# glench
+# glist
 
-[![Package Version](https://img.shields.io/hexpm/v/glench)](https://hex.pm/packages/glench)
-[![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/glench/)
+[![Package Version](https://img.shields.io/hexpm/v/glist)](https://hex.pm/packages/glist)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/glist/)
 
 A Gleam project
 
@@ -18,7 +18,7 @@ gleam shell # Run an Erlang shell
 If available on Hex this package can be added to your Gleam project:
 
 ```sh
-gleam add glench
+gleam add glist
 ```
 
-and its documentation can be found at <https://hexdocs.pm/glench>.
+and its documentation can be found at <https://hexdocs.pm/glist>.
