@@ -13,6 +13,7 @@ defmodule Glandit.Plug do
   end
 
   post "/user" do
-    send_resp(conn, 200, conn.body_params)
+    {:ok, body, conn} = Plug.Conn.read_body(conn)
+    send_resp(conn, 200, body)
   end
 end

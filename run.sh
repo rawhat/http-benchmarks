@@ -12,14 +12,14 @@ concurrencies=(1 2 4 6 8 12 16)
 for concurrency in "${concurrencies[@]}"
 do
   echo "Running '/' with $concurrency concurrency..."
-  ab -n 200000 -l -c $concurrency -e "output/$1/$1-$concurrency.csv" http://localhost:8080/
+  ab -n 200000 -l -c $concurrency http://localhost:8080/ > "output/$1/$1-$concurrency.txt"
 done
 
 for concurrency in "${concurrencies[@]}"
 do
   echo "Running '/user/:id' with $concurrency concurrency..."
   random=$[$RANDOM % 2048 + 1024]
-  ab -n 200000 -l -c $concurrency -e "output/$1/$1-$concurrency-user-$random.csv" "http://localhost:8080/user/$random"
+  ab -n 200000 -l -c $concurrency "http://localhost:8080/user/$random" > "output/$1/$1-$concurrency-user-$random.txt"
 done
 
 for concurrency in "${concurrencies[@]}"
@@ -29,6 +29,6 @@ do
   echo $data > data.txt
   echo "Running '/user/:id' with $concurrency concurrency..."
   random=$[$RANDOM % 2048 + 1024]
-  ab -n 200000 -l -c $concurrency -e "output/$1/$1-$concurrency-post-$random.csv" -p data.txt "http://localhost:8080/user"
+  ab -n 200000 -l -c $concurrency -p data.txt "http://localhost:8080/user" > "output/$1/$1-$concurrency-post-$random.txt"
   rm data.txt
 done

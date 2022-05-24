@@ -19,7 +19,7 @@ handle_get(Req, State) ->
   {ok, Res, State}.
 
 handle_post(Req, State) ->
-  {ok, Data} = cowboy_req:read_body(Req),
+  {ok, Data, _Bindings} = cowboy_req:read_body(Req),
   Res =
     cowboy_req:reply(200,
                      #{<<"content-type">> => <<"text/plain">>},
