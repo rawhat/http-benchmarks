@@ -5,6 +5,8 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
+mkdir -p "output/$1"
+
 concurrencies=(1 2 4 6 8 12 16)
 
 for concurrency in "${concurrencies[@]}"
