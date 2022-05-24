@@ -11,4 +11,8 @@ defmodule Glandit.Plug do
   get "/user/:id" do
     send_resp(conn, 200, id)
   end
+
+  post "/user" do
+    send_resp(conn, 200, conn.body_params)
+  end
 end
