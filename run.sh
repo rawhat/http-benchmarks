@@ -7,28 +7,28 @@ fi
 
 mkdir -p "output/$1"
 
-concurrencies=(1 2 4 6 8 12 16)
+concurrencies=(1 2 4 6 8 12)
 
 for concurrency in "${concurrencies[@]}"
 do
   echo "Running '/' with $concurrency concurrency..."
-  ab -k -n 200000 -l -c $concurrency http://localhost:8080/ > "output/$1/$1-$concurrency.txt"
+  h2load --no-tls-proto=http/1.1 -D 30 http://localhost:8080/ -t $concurrency -c $concurrency > "output/$1/$1-$concurrency.txt"
 done
 
 for concurrency in "${concurrencies[@]}"
 do
   echo "Running '/user/:id' with $concurrency concurrency..."
   random=$[$RANDOM % 2048 + 1024]
-  ab -k -n 200000 -l -c $concurrency "http://localhost:8080/user/$random" > "output/$1/$1-$concurrency-user-$random.txt"
+  h2load --no-tls-proto=http/1.1 -D 30 "http://localhost:8080/user/$random" -t $concurrency -c $concurrency > "output/$1/$1-$concurrency-user-$random.txt"
 done
 
 for concurrency in "${concurrencies[@]}"
 do
-  # read in 1kb
-  data="$(dd if=/dev/urandom bs=1 count=1024)"
+  # read in 10kb
+  data="$(dd if=/dev/urandom bs=1k count=10)"
   echo $data > data.txt
-  echo "Running '/user/:id' with $concurrency concurrency..."
+  echo "Running '/user' with $concurrency concurrency..."
   random=$[$RANDOM % 2048 + 1024]
-  ab -k -n 200000 -l -c $concurrency -p data.txt "http://localhost:8080/user" > "output/$1/$1-$concurrency-post-$random.txt"
+  h2load --no-tls-proto=http/1.1 -D 30 -d data.txt "http://localhost:8080/user" -t $concurrency -c $concurrency > "output/$1/$1-$concurrency-post-$random.txt"
   rm data.txt
 done
