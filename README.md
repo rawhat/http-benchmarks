@@ -2,6 +2,10 @@
 
 This repo is for comparing [mist](https://github.com/rawhat/mist) to some other webserver libraries.
 
+NOTE:  I just updated the test runner to use a different program.  The data
+hasn't been updated to reflect that, so just keep that in mind until I get
+to that.  Thanks!
+
 ## Setup
 
 This initial pass, which likely will be redone at some point, was run with both the client and servers on the same machine.  The specs are:
