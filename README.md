@@ -64,7 +64,7 @@ Each application was tested with [h2load](https://nghttp2.org/documentation/h2lo
 |Express Cluster|18704.03 req/s|35970.53 req/s|55305.4 req/s|62016.03 req/s|64739.73 req/s|70418.07 req/s|73917.3 req/s
 |Bandit|32241.9 req/s|40495.73 req/s|72393.33 req/s|95072.53 req/s|113830.7 req/s|124198.2 req/s|126024.1 req/s
 |Cowboy|14277.53 req/s|17917.47 req/s|26195.47 req/s|30797.63 req/s|35437.47 req/s|43443 req/s|49795.6 req/s
-|Mist|12078.1 req/s|21103.33 req/s|32049.97 req/s|37712.77 req/s|43810.57 req/s|56624.63 req/s|63406.1 req/s
+|Mist|43464.8 req/s|74902 req/s|107876 req/s|133412 req/s|148325.4 req/s|167869.5 req/s|182376.73 req/s
 |Go|27744.8 req/s|38511.33 req/s|48847.07 req/s|43422.13 req/s|39789.93 req/s|37867.4 req/s|36186 req/s
 
 ![GET /](/results/GET%20_.png)
