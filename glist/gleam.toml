@@ -14,7 +14,7 @@ gleam_stdlib = "~> 0.20"
 mist = "~> 0.3"
 gleam_http = "~> 3.0"
 gleam_erlang = "~> 0.9"
-glisten = "~> 0.2"
+glisten = "~> 0.3"
 gleam_otp = "~> 0.4"
 
 [dev-dependencies]

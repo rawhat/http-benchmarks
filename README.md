@@ -2,13 +2,9 @@
 
 This repo is for comparing [mist](https://github.com/rawhat/mist) to some other webserver libraries.
 
-NOTE:  I just updated the test runner to use a different program.  The data
-hasn't been updated to reflect that, so just keep that in mind until I get
-to that.  Thanks!
-
 ## Setup
 
-This initial pass, which likely will be redone at some point, was run with both the client and servers on the same machine.  The specs are:
+This was run with both the client and servers on the same machine.  The specs are:
 
 |Part|Spec|
 |---|---|
@@ -18,10 +14,15 @@ This initial pass, which likely will be redone at some point, was run with both 
 
 The frameworks tested are:
   - Express (non-cluster)
-  - Flask + Gunicorn (6 workers)
+  - Express (cluster of 16)
   - Bandit
   - Cowboy
   - Mist
+  - Go (net/http)
+
+NOTE:  I previously had flask + gunicorn in the test results, but was unable
+to get the runner script executions to pass.  I'm not really sure why that's
+happening at the moment, but for now I just omitted that case.
 
 You can view the tests in `run.sh` but the cases are:
 
@@ -29,7 +30,7 @@ You can view the tests in `run.sh` but the cases are:
     - GET /user/:id -> id
     - POST /user -> <body>
 
-Each application was tested with [Apache Bench](https://httpd.apache.org/docs/2.4/programs/ab.html) with 200,000 requests for each case noted above.  These tests were repeated with the concurrency flag set to 1, 2, 4, 6, 8, 12, and 16.
+Each application was tested with [h2load](https://nghttp2.org/documentation/h2load-howto.html) with 30s for each case noted above.  These tests were repeated with the concurrency flag set to 1, 2, 4, 6, 8, 12, and 16.
 
 ## Results
 
@@ -37,31 +38,34 @@ Each application was tested with [Apache Bench](https://httpd.apache.org/docs/2.
 
 |Framework|Concurrency 1|2|4|6|8|12|16
 |---|---|---|---|---|---|---|---
-|Express|8952.97 req/s|10398.35 req/s|10453.25 req/s|10726.25 req/s|10954.96 req/s|11140.63 req/s|11371.71 req/s
-|Flask|4722.5 req/s|9277.17 req/s|16023.98 req/s|21834.93 req/s|24013.25 req/s|24965.03 req/s|25074.79 req/s
-|Bandit|10557.88 req/s|17027.62 req/s|28056.04 req/s|34736.18 req/s|37160.05 req/s|35765.72 req/s|34239.14 req/s
-|Cowboy|12428.26 req/s|13945.09 req/s|27476.05 req/s|34111.56 req/s|35330.74 req/s|34133.07 req/s|33449.08 req/s
-|Mist|13811.33 req/s|19193.43 req/s|31206.05 req/s|35070.37 req/s|35175.94 req/s|34335.81 req/s|33713.62 req/s
+|Express|17549.7 req/s|17295.07 req/s|17313.4 req/s|17225.33 req/s|16600.9 req/s|17155.63 req/s|17036.07 req/s
+|Express Cluster|17165.53 req/s|32899.63 req/s|52555.47 req/s|66321.77 req/s|69829.2 req/s|79016 req/s|81722.9 req/s
+|Bandit|41269.83 req/s|48816.6 req/s|92471.17 req/s|122576.6 req/s|147419.1 req/s|176916.63 req/s|182736.93 req/s
+|Cowboy|32874.47 req/s|40446.03 req/s|68811.27 req/s|86630.23 req/s|97340.2 req/s|124425.13 req/s|152099.87 req/s
+|Mist|54891.1 req/s|71473.1 req/s|125455.2 req/s|162082.07 req/s|195681.13 req/s|215054.93 req/s|227644.3 req/s
+|Go|60487.63 req/s|106932.23 req/s|156950 req/s|184724.03 req/s|194572.5 req/s|225728.97 req/s|256995.6 req/s
 
 #### `GET /user/:id`
 
 |Framework|Concurrency 1|2|4|6|8|12|16
 |---|---|---|---|---|---|---|---
-|Express|8476.3 req/s|9949.01 req/s|9860.32 req/s|9879.97 req/s|10179.87 req/s|10464.82 req/s|10776.43 req/s
-|Flask|4484.78 req/s|8886.25 req/s|15448.45 req/s|21158.42 req/s|23167.78 req/s|23578.02 req/s|23846.8 req/s
-|Bandit|10104.61 req/s|16774.07 req/s|26835.23 req/s|32081.17 req/s|34386.5 req/s|34628.57 req/s|33622.31 req/s
-|Cowboy|11684.54 req/s|18342.67 req/s|28752.03 req/s|34206.92 req/s|33481.84 req/s|33029.61 req/s|32071.79 req/s
-|Mist|13140.68 req/s|17425.42 req/s|32065.74 req/s|34504.78 req/s|34178.63 req/s|32732.24 req/s|31909.85 req/s
+|Express|15812.73 req/s|15960.47 req/s|16090.83 req/s|15299.13 req/s|15301.27 req/s|15722.7 req/s|15101.33 req/s
+|Express Cluster|14420.83 req/s|27856.5 req/s|44224.5 req/s|56401.47 req/s|54391.03 req/s|61523.63 req/s|64558.33 req/s
+|Bandit|38364.1 req/s|47729.1 req/s|84233.17 req/s|115218.97 req/s|140101.8 req/s|169721.87 req/s|175133.5 req/s
+|Cowboy|28977.7 req/s|36823.47 req/s|65675.07 req/s|84792.73 req/s|95764.33 req/s|116876.1 req/s|130122.13 req/s
+|Mist|47370.87 req/s|85973.33 req/s|123312.2 req/s|137837.8 req/s|155174.2 req/s|181289.77 req/s|193269.7 req/s
+|Go|55997.8 req/s|93639.93 req/s|151421.67 req/s|178652.5 req/s|188503.83 req/s|220090.2 req/s|249689.37 req/s
 
 #### `POST /user`
 
 |Framework|Concurrency 1|2|4|6|8|12|16
 |---|---|---|---|---|---|---|---
-|Express|10528.1 req/s|12473.9 req/s|12698.34 req/s|13029.17 req/s|13339.65 req/s|13573.34 req/s|13739.57 req/s
-|Flask|3922.71 req/s|7752.45 req/s|13396.61 req/s|15671.91 req/s|17333.76 req/s|17734.77 req/s|17883.44 req/s
-|Bandit|9942.05 req/s|16444.54 req/s|25495.91 req/s|32302.55 req/s|34317.92 req/s|34563.48 req/s|33021.81 req/s
-|Cowboy|10736.79 req/s|17348.6 req/s|26738.27 req/s|32619.88 req/s|33145.65 req/s|31880.68 req/s|31114.89 req/s
-|Mist|10614.53 req/s|16528.11 req/s|28484.6 req/s|32541.95 req/s|32069.02 req/s|31475.89 req/s|30745.45 req/s
+|Express|22111.67 req/s|22433.23 req/s|22401.27 req/s|22309.57 req/s|21989.8 req/s|21713.4 req/s|20879.53 req/s
+|Express Cluster|18704.03 req/s|35970.53 req/s|55305.4 req/s|62016.03 req/s|64739.73 req/s|70418.07 req/s|73917.3 req/s
+|Bandit|32241.9 req/s|40495.73 req/s|72393.33 req/s|95072.53 req/s|113830.7 req/s|124198.2 req/s|126024.1 req/s
+|Cowboy|14277.53 req/s|17917.47 req/s|26195.47 req/s|30797.63 req/s|35437.47 req/s|43443 req/s|49795.6 req/s
+|Mist|12078.1 req/s|21103.33 req/s|32049.97 req/s|37712.77 req/s|43810.57 req/s|56624.63 req/s|63406.1 req/s
+|Go|27744.8 req/s|38511.33 req/s|48847.07 req/s|43422.13 req/s|39789.93 req/s|37867.4 req/s|36186 req/s
 
 ![GET /](/results/GET%20_.png)
 
