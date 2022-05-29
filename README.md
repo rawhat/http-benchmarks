@@ -4,7 +4,9 @@ This repo is for comparing [mist](https://github.com/rawhat/mist) to some other 
 
 ## Setup
 
-This was run with both the client and servers on the same machine.  The specs are:
+This was run with both the client and servers on the same machine.
+
+The specs are:
 
 |Part|Spec|
 |---|---|
@@ -19,6 +21,13 @@ The frameworks tested are:
   - Cowboy
   - Mist
   - Go (net/http)
+
+Each of these sample projects has a `run.sh` file in its respective directory.
+That's what I have been executing to start up the server.  These should
+hopefully cover the "production" build for these.  Obviously please tell me
+if you think I should be running something differently!  I want these results
+to be as fair and explanatory as possible (for a relatively synthetic
+benchmark, obviously).
 
 NOTE:  I previously had flask + gunicorn in the test results, but was unable
 to get the runner script executions to pass.  I'm not really sure why that's
@@ -38,34 +47,34 @@ Each application was tested with [h2load](https://nghttp2.org/documentation/h2lo
 
 |Framework|Concurrency 1|2|4|6|8|12|16
 |---|---|---|---|---|---|---|---
-|Express|17549.7 req/s|17295.07 req/s|17313.4 req/s|17225.33 req/s|16600.9 req/s|17155.63 req/s|17036.07 req/s
-|Express Cluster|17165.53 req/s|32899.63 req/s|52555.47 req/s|66321.77 req/s|69829.2 req/s|79016 req/s|81722.9 req/s
-|Bandit|41269.83 req/s|48816.6 req/s|92471.17 req/s|122576.6 req/s|147419.1 req/s|176916.63 req/s|182736.93 req/s
-|Cowboy|32874.47 req/s|40446.03 req/s|68811.27 req/s|86630.23 req/s|97340.2 req/s|124425.13 req/s|152099.87 req/s
-|Mist|54891.1 req/s|71473.1 req/s|125455.2 req/s|162082.07 req/s|195681.13 req/s|215054.93 req/s|227644.3 req/s
-|Go|60487.63 req/s|106932.23 req/s|156950 req/s|184724.03 req/s|194572.5 req/s|225728.97 req/s|256995.6 req/s
+|Express|17184 req/s|16193.47 req/s|16971.07 req/s|16946.93 req/s|16815.9 req/s|16877.07 req/s|16913.47 req/s
+|Express Cluster|16612.93 req/s|31835.1 req/s|52126.37 req/s|65902.03 req/s|69222.5 req/s|78587.9 req/s|82738.83 req/s
+|Bandit|40636.1 req/s|48616.6 req/s|89218.1 req/s|121324.57 req/s|140692.9 req/s|168422.6 req/s|174439.97 req/s
+|Cowboy|32380.2 req/s|41219.6 req/s|66815.17 req/s|87140.67 req/s|88028.17 req/s|114629.37 req/s|134766.27 req/s
+|Mist|54537.7 req/s|72473.33 req/s|122451.3 req/s|173601.63 req/s|201595.07 req/s|226361.5 req/s|236711.13 req/s
+|Go|60466.37 req/s|108339.5 req/s|155894.77 req/s|185027.13 req/s|194863 req/s|226281 req/s|257714.13 req/s
 
 #### `GET /user/:id`
 
 |Framework|Concurrency 1|2|4|6|8|12|16
 |---|---|---|---|---|---|---|---
-|Express|15812.73 req/s|15960.47 req/s|16090.83 req/s|15299.13 req/s|15301.27 req/s|15722.7 req/s|15101.33 req/s
-|Express Cluster|14420.83 req/s|27856.5 req/s|44224.5 req/s|56401.47 req/s|54391.03 req/s|61523.63 req/s|64558.33 req/s
-|Bandit|38364.1 req/s|47729.1 req/s|84233.17 req/s|115218.97 req/s|140101.8 req/s|169721.87 req/s|175133.5 req/s
-|Cowboy|28977.7 req/s|36823.47 req/s|65675.07 req/s|84792.73 req/s|95764.33 req/s|116876.1 req/s|130122.13 req/s
-|Mist|47370.87 req/s|85973.33 req/s|123312.2 req/s|137837.8 req/s|155174.2 req/s|181289.77 req/s|193269.7 req/s
-|Go|55997.8 req/s|93639.93 req/s|151421.67 req/s|178652.5 req/s|188503.83 req/s|220090.2 req/s|249689.37 req/s
+|Express|15690.17 req/s|15718.67 req/s|15633.17 req/s|15404.17 req/s|15534.03 req/s|15117.8 req/s|15197.07 req/s
+|Express Cluster|14059.97 req/s|26459.97 req/s|47776.2 req/s|53187.03 req/s|53674.5 req/s|60694.4 req/s|64454.93 req/s
+|Bandit|36371.9 req/s|43202.97 req/s|76317.23 req/s|114231.53 req/s|135576.4 req/s|167579.63 req/s|171393.03 req/s
+|Cowboy|28940.37 req/s|35997.2 req/s|65977.53 req/s|83173.63 req/s|97591.57 req/s|118077.53 req/s|131697.87 req/s
+|Mist|51228.93 req/s|73286.4 req/s|124918.53 req/s|145152.7 req/s|161114.8 req/s|185556.97 req/s|196957.47 req/s
+|Go|55842.4 req/s|93958.8 req/s|151009.3 req/s|177738.43 req/s|188326.63 req/s|220403.4 req/s|250316.67 req/s
 
 #### `POST /user`
 
 |Framework|Concurrency 1|2|4|6|8|12|16
 |---|---|---|---|---|---|---|---
-|Express|22111.67 req/s|22433.23 req/s|22401.27 req/s|22309.57 req/s|21989.8 req/s|21713.4 req/s|20879.53 req/s
-|Express Cluster|18704.03 req/s|35970.53 req/s|55305.4 req/s|62016.03 req/s|64739.73 req/s|70418.07 req/s|73917.3 req/s
-|Bandit|32241.9 req/s|40495.73 req/s|72393.33 req/s|95072.53 req/s|113830.7 req/s|124198.2 req/s|126024.1 req/s
-|Cowboy|14277.53 req/s|17917.47 req/s|26195.47 req/s|30797.63 req/s|35437.47 req/s|43443 req/s|49795.6 req/s
-|Mist|43464.8 req/s|74902 req/s|107876 req/s|133412 req/s|148325.4 req/s|167869.5 req/s|182376.73 req/s
-|Go|27744.8 req/s|38511.33 req/s|48847.07 req/s|43422.13 req/s|39789.93 req/s|37867.4 req/s|36186 req/s
+|Express|21904.07 req/s|21728.5 req/s|21406.9 req/s|21289.97 req/s|20960.03 req/s|21088.23 req/s|21557.93 req/s
+|Express Cluster|18093.77 req/s|33629.87 req/s|53670.23 req/s|62223.87 req/s|66794 req/s|72450.97 req/s|75638.7 req/s
+|Bandit|29676.73 req/s|35253.47 req/s|67166.4 req/s|90160.87 req/s|101414.43 req/s|118613.2 req/s|124483.13 req/s
+|Cowboy|14729.67 req/s|18368.4 req/s|25981.9 req/s|31382.8 req/s|36064.83 req/s|44372.07 req/s|49802.77 req/s
+|Mist|41165 req/s|69996.67 req/s|97834 req/s|117165.37 req/s|131711.07 req/s|150727.47 req/s|162182.4 req/s
+|Go|31869 req/s|53810.17 req/s|83249.23 req/s|98007.67 req/s|98963.8 req/s|101635.4 req/s|109319.5 req/s
 
 ![GET /](/results/GET%20_.png)
 
