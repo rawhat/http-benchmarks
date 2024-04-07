@@ -8,6 +8,10 @@ defmodule Glandit.Plug do
     send_resp(conn, 200, "")
   end
 
+  post "/" do
+    send_resp(conn, 200, "")
+  end
+
   get "/user/:id" do
     send_resp(conn, 200, id)
   end

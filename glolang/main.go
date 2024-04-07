@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 )
@@ -19,5 +20,9 @@ func main() {
 		r.Write(w)
 	})
 
-	http.ListenAndServe(":8080", mux)
+	// err := http.ListenAndServeTLS(":3334", "/home/alex/gleams/mist/domain.crt", "/home/alex/gleams/mist/domain.key", mux)
+	err := http.ListenAndServe(":8080", mux)
+	if err != nil {
+		fmt.Printf("Failed to start:  %w", err)
+	}
 }

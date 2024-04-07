@@ -10,7 +10,7 @@ defmodule Glandit.Application do
     children = [
       # Starts a worker by calling: Glandit.Worker.start_link(arg)
       # {Glandit.Worker, arg}
-      {Bandit, plug: Glandit.Plug, scheme: :http, options: [port: 8080]}
+      {Bandit, plug: Glandit.Plug, scheme: :http, port: 8080}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
