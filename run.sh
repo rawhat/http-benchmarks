@@ -7,7 +7,8 @@ fi
 
 mkdir -p "output/$1"
 
-concurrencies=(1 2 4 6 8 12)
+# concurrencies=(1 2 4 6 8 12)
+concurrencies=(16)
 server="http://localhost:8080"
 
 for concurrency in "${concurrencies[@]}"

@@ -1,4 +1,4 @@
-import gleam/bytes_builder
+import gleam/bytes_tree
 import gleam/erlang/process
 import gleam/http
 import gleam/http/request.{type Request}
@@ -7,7 +7,7 @@ import gleam/result
 import mist
 
 pub fn main() {
-  let empty_bytes = mist.Bytes(bytes_builder.new())
+  let empty_bytes = mist.Bytes(bytes_tree.new())
   let empty_response =
     response.new(200)
     |> response.set_body(empty_bytes)
@@ -20,14 +20,14 @@ pub fn main() {
     response.new(413)
     |> response.set_body(empty_bytes)
 
-  let assert Ok(subj) =
+  let assert Ok(_subj) =
     fn(req: Request(BitArray)) {
       case req.method, request.path_segments(req) {
         http.Get, [] -> empty_response
         http.Get, ["user", id] ->
           response.new(200)
           |> response.set_body(
-            mist.Bytes(bytes_builder.from_bit_array(<<id:utf8>>)),
+            mist.Bytes(bytes_tree.from_bit_array(<<id:utf8>>)),
           )
         http.Post, ["user"] -> {
           let content_type =
@@ -35,9 +35,7 @@ pub fn main() {
             |> request.get_header("content-type")
             |> result.unwrap("application/octet-stream")
           response.new(200)
-          |> response.set_body(
-            mist.Bytes(bytes_builder.from_bit_array(req.body)),
-          )
+          |> response.set_body(mist.Bytes(bytes_tree.from_bit_array(req.body)))
           |> response.prepend_header("content-type", content_type)
         }
         _, _ -> not_found

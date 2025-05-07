@@ -10,12 +10,11 @@ version = "0.1.0"
 # links = [{ title = "Website", href = "https://gleam.run" }]
 
 [dependencies]
-gleam_stdlib = "~> 0.36"
-gleam_http = "~> 3.6"
-gleam_erlang = "~> 0.25"
-gleam_otp = "~> 0.10"
-# mist = "~> 1.0"
 mist = { path = "../../../gleams/mist" }
+gleam_stdlib = ">= 0.59.0 and < 1.0.0"
+gleam_http = ">= 4.0.0 and < 5.0.0"
+gleam_erlang = "1.0.0-rc1"
+gleam_otp = { git = "git@github.com:gleam-lang/otp", ref = "redux" }
 
 [dev-dependencies]
 gleeunit = "~> 1.0"
